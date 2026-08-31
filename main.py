@@ -1,0 +1,2 @@
+import whisper
+print("installed")
