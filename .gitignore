@@ -10,7 +10,7 @@ __pycache__/
 
 # Generated output
 output.json
-
+jsons/
 # Large media files
 audios/
 videos/
