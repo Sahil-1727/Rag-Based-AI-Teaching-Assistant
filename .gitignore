@@ -1,6 +1,9 @@
 # macOS
 .DS_Store
 
+# Ignore generated database files
+embeddings.joblib
+
 # PyCharm
 .idea/
 
@@ -18,3 +21,6 @@ audios/
 videos/
 *.mp3
 *.webm
+
+#Ignore zip archive
+jsons.zip
