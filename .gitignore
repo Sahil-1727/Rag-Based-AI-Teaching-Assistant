@@ -22,5 +22,6 @@ videos/
 *.mp3
 *.webm
 
-#Ignore zip archive
+#Ignore zip archive and Generated txt files
 jsons.zip
+prompt.txt
