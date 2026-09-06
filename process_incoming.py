@@ -18,6 +18,17 @@ def create_embedding(text_list):
 
     # Use the plural "embeddings" key
     return response_data["embeddings"]
+def inference(prompt):
+    r = requests.post("http://localhost:11434/api/generate", json={
+        # "model": "deepseek-r1",
+        "model": "llama3.2",
+        "prompt": prompt,
+        "stream": False
+    })
+
+    response = r.json()
+    print(response)
+    return response
 
 df = joblib.load('embeddings.joblib')
 incoming_query = input("Ask a Question: ")
@@ -51,5 +62,11 @@ Instructions:
 # for index, item in new_df.iterrows():
 #     print(index, item["title"], item["number"], item["text"], item["start"], item["end"])
 
-with open("prompt.txt" , "w") as f:
+with open("prompt.txt", "w") as f:
     f.write(prompt)
+
+response = inference(prompt)["response"]
+print(response)
+
+with open("response.txt", "w") as f:
+    f.write(response)
