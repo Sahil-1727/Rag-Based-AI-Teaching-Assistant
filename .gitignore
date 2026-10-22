@@ -25,3 +25,32 @@ videos/
 #Ignore zip archive and Generated txt files
 jsons.zip
 prompt.txt
+response.txt
+
+#conig
+config.py
+
+
+
+# secrets
+config.py
+.env
+
+# environment / editor
+.venv/
+__pycache__/
+.idea/
+.vscode/
+.DS_Store
+
+# generated data (rebuilt by the scripts)
+chroma_db/
+embeddings.joblib
+audios/
+videos/
+jsons/
+jsons.zip
+output.json
+prompt.txt
+response.txt
+unused/

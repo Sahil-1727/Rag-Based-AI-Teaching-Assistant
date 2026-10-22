@@ -3,6 +3,8 @@ import os
 import json
 import pandas as pd
 import joblib
+import chromadb 
+
 
 def create_embedding(text_list):
     r = requests.post("http://localhost:11434/api/embed", json={
@@ -37,9 +39,28 @@ for json_file in jsons:
         my_dicts.append(chunk)
     # print(my_dicts)
 
-df = pd.DataFrame.from_records(my_dicts)
-joblib.dump(df,'embeddings.joblib')
+# df = pd.DataFrame.from_records(my_dicts)
+# joblib.dump(df,'embeddings.joblib')
 # a = create_embedding(["Cat sat on the mat", "Harry dances on a mat"])
 # print(a)
 
+df = pd.DataFrame.from_records(my_dicts)
+
+client = chromadb.PersistentClient(path="chroma_db")
+collection = client.get_or_create_collection(
+    name="course_chunks",
+    metadata={"hnsw:space": "cosine"},
+)
+
+batch_size = 500
+for i in range(0, len(df), batch_size):
+    batch = df.iloc[i:i + batch_size]
+    collection.upsert(
+        ids=[str(x) for x in batch["chunk_id"]],
+        embeddings=batch["embedding"].tolist(),
+        documents=batch["text"].tolist(),
+        metadatas=batch[["title", "number", "start", "end"]].to_dict(orient="records"),
+    )
+
+print("Stored chunks:", collection.count())
 
